@@ -1,14 +1,28 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rush01.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyukim <gyukim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/17 18:08:02 by gyukim            #+#    #+#             */
+/*   Updated: 2021/10/17 20:03:08 by gyukim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <unistd.h>
+
 void	ft_putchar(char c)
 {
-	printf("%c", c);
+	write(1, &c, 1);
 }
-void	ft_printMAP(int(*MAP)[4], int(*row_col)[4], int size) {
-	int i;
-	int j;
+
+void	ft_printmap(int MAP[][4], int row_col[][4], int size)
+{
+	int	i;
+	int	j;
 
 	i = 0;
-
 	while (i < size)
 	{
 		j = 0;
@@ -23,93 +37,162 @@ void	ft_printMAP(int(*MAP)[4], int(*row_col)[4], int size) {
 		ft_putchar('\n');
 	}
 }
-int solve1(int(*row_col)[4], int pos[2], int size) {
-	int x = pos[1];
-	int y = pos[0];
-	int i;
-	int j;
 
+int	solve1(int row_col[][4], int *pos, int size)
+{
+	int	x;
+	int	y;
+
+	x = pos[1];
+	y = pos[0];
 	if (row_col[0][x] == size)
-		return y + 1;
+		return (y + 1);
 	else if (row_col[1][x] == size)
-		return size - y;
+		return (size - y);
 	else if (row_col[2][y] == size)
-		return x + 1;
+		return (x + 1);
 	else if (row_col[3][y] == size)
-		return size - x;
+		return (size - x);
 	else if (row_col[0][x] == 1 && y == 0)
-		return size;
+		return (size);
 	else if (row_col[1][x] == 1 && y == size - 1)
-		return size;
+		return (size);
 	else if (row_col[2][y] == 1 && x == 0)
-		return size;
+		return (size);
 	else if (row_col[3][y] == 1 && y == size - 1)
-		return size;
+		return (size);
+	return (0);
+}
 
+int	solve2(int row_col[][4], int *pos, int size)
+{
+	int	x;
+	int	y;
 
-	else if (row_col[0][x] + row_col[1][x] == size + 1)
+	x = pos[1];
+	y = pos[0];
+	if (row_col[0][x] + row_col[1][x] == size + 1)
 	{
-		if (row_col[0][x] > row_col[1][x])
-		{
-			if (row_col[0][x] == y + 1)
-				return size;
-		}
-		else
-		{
-			if (row_col[1][x] == size - y)
-				return size;
-		}
+		if (row_col[0][x] > row_col[1][x] && row_col[0][x] == y + 1)
+			return (size);
+		else if (row_col[0][x] < row_col[1][x] && row_col[1][x] == size - y)
+			return (size);
 	}
 	else if (row_col[2][y] + row_col[3][y] == size + 1)
 	{
-		if (row_col[2][y] > row_col[3][y]) {
-			if (row_col[2][y] == x + 1)
-				return size;
-		}
-		else
+		if (row_col[2][y] > row_col[3][y] && row_col[2][y] == x + 1 )
+			return (size);
+		else if (row_col[2][y] < row_col[3][y] && row_col[3][y] == size - x)
+			return (size);
+	}
+	return (0);
+}
+
+void	init(int map[][4], int row_col[][4], char *argv[], int n)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < n)
+	{
+		while (j < n)
 		{
-			if (row_col[3][y] == size - x)
-				return size;
+			map[i][j] = 0;
+			j++;
 		}
+		i++;
 	}
 
-	return 0;
+	i = 0;
+	while (i < 16)
+	{
+		row_col[i%16][i] = argv[1][i*2] - 48;
+		i++;
+	}
+	return ;
 }
-int main()
-{
-	const static int N = 4; //사이즈
 
-	int row_col[N][N] = {
-		{1, 2, 3, 2},		//col_up			rol_col[0]
-		{3, 2, 1, 2},		//col_down			rol_col[1]
-		{1, 2, 4 ,3},		//row_left			rol_col[2]
-		{2, 2, 1, 2},		//row_right			rol_col[3]
-	};
-	int solveMAP[N][N] = {
-		{ 1, 2, 3, 4},
-		{2, 3, 4, 1},
-		{3, 4, 1 ,2},
-		{4, 1, 2, 3},
-	};
-	int MAP[N][N] = {
-		{0, 0, 0, 0},
-		{0, 0, 0, 0},
-		{0, 0, 0 ,0},
-		{0, 0, 0, 0},
-	};
-	int pos[2] = { 0, 0 };
-	//pos[0] y좌표
-	//pos[1] x좌표
-	while (pos[0] < N)
+int	error(int argc, char *argv[])
+{
+	int	err;
+	int	i;
+	int	count;
+	int	num[16] = {0};
+	
+	err = 0;
+	i = 0;
+	count = 0;
+	if (argc != 2)
+		err = 1;
+	else
+	{
+		while (argv[1][1])
+		{
+			if ((argv[1][i] >= '0' + 1) && (argv[1][i] <= '0' + 4))
+			{
+				num[count] = argv[1][i] - '0';
+				count++;
+			}
+			else if (argv[1][i] != ' ')
+			{
+				err = 1;
+				break;
+			}
+		}
+		if (count != 16) err = 1;
+		else
+		{
+			while (count > 12)
+			{
+				if ((argv[1][count] + argv[1][count - 4]) > 5)
+				{
+					err = 1;
+					break;
+				}
+				count--;
+			}
+			count = 8;
+			while (count > 4)
+			{
+				if ((argv[1][count] + argv[1][count - 4]) > 5)
+				{
+					err = 1;
+					break;
+				}
+				count--;
+			}
+		}
+	}
+	return (err);
+}
+
+int	main(int argc, char *argv[])
+{
+	int	row_col[4][4];
+	int	map[4][4];
+	int	pos[2];
+	
+	pos[0] = 0;
+	if (error(argc, argv) == 1)
+	{
+		write(1, "Error\n", 6);
+	}
+
+	init(map, row_col, argv, 4);
+	while (pos[0] < 4)
 	{
 		pos[1] = 0;
-		while (pos[1] < N)
+		while (pos[1] < 4)
 		{
-			if (MAP[pos[0]][pos[1]] == 0)
-				MAP[pos[0]][pos[1]] = solve1(row_col, pos, N);
+			if (map[pos[0]][pos[1]] == 0)
+			{
+				map[pos[0]][pos[1]] = solve1(row_col, pos, 4);
+				map[pos[0]][pos[1]] = solve2(row_col, pos, 4);
+			}
 			pos[1]++;
 		}
 		pos[0]++;
 	}
-	ft_printMAP(MAP, row_col, N);
+	ft_printmap(map, row_col, 4);
 }

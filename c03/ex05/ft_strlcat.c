@@ -6,15 +6,15 @@
 /*   By: gyukim <gyukim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 20:33:54 by gyukim            #+#    #+#             */
-/*   Updated: 2021/10/19 16:17:46 by gyukim           ###   ########.fr       */
+/*   Updated: 2021/10/23 15:22:47 by gyukim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-unsigned int		ft_strlen(char *str)
+unsigned int	ft_strlen(char *str)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	while (str[i])
@@ -22,19 +22,19 @@ unsigned int		ft_strlen(char *str)
 	return (i);
 }
 
-unsigned int		ft_strlcat(char *dest, char *src, unsigned int size)
+unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 {
-	unsigned int i;
-	unsigned int j;
-	unsigned int res_d;
-	unsigned int res_s;
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	len_d;
+	unsigned int	len_s;
 
 	i = ft_strlen(dest);
 	j = 0;
-	res_d = ft_strlen(dest);
-	res_s = ft_strlen(src);
+	len_d = ft_strlen(dest);
+	len_s = ft_strlen(src);
 	if (size < 1)
-		return (res_s + size);
+		return (len_s + size);
 	while (src[j] && i < size - 1)
 	{
 		dest[i] = src[j];
@@ -42,9 +42,8 @@ unsigned int		ft_strlcat(char *dest, char *src, unsigned int size)
 		j++;
 	}
 	dest[i] = '\0';
-	if (size < res_d)
-		return (res_s + size);
+	if (size < len_d)
+		return (len_s + size);
 	else
-		return (res_d + res_s);
+		return (len_d + res_s);
 }
-

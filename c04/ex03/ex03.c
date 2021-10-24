@@ -24,6 +24,5 @@ int main(void)
 	printf("%d\n", ft_atoi("\t\v----------++5123--145"));
 	printf("%d\n", ft_atoi("\n\f----------+-+5123+145"));
 	printf("%d\n", ft_atoi("\r     \n\t\v\n\f---++-----++212  3133345"));
-	printf("%d\n", ft_atoi("-------+++---+363826affchd1233"));
 	return 0;
 }

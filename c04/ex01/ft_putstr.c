@@ -6,7 +6,7 @@
 /*   By: gyukim <gyukim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 19:50:15 by gyukim            #+#    #+#             */
-/*   Updated: 2021/10/21 19:51:08 by gyukim           ###   ########.fr       */
+/*   Updated: 2021/10/24 15:53:12 by gyukim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	ft_putstr(char *str)
 {
 	int	i;
-	
+
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		write(1, &str[i], 1);
 		i++;

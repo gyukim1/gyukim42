@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_fibonacci.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gyukim <gyukim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 20:11:31 by gyukim            #+#    #+#             */
-/*   Updated: 2021/10/24 15:53:39 by gyukim           ###   ########.fr       */
+/*   Created: 2021/10/24 16:46:10 by gyukim            #+#    #+#             */
+/*   Updated: 2021/10/24 17:40:18 by gyukim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(char *str)
+int	ft_fibonacci(int index)
 {
-	int	i;
-	int	sign;
-	int	num;
-
-	sign = 1;
-	i = 0;
-	num = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	while (str[i] == 45 || str[i] == 43)
-	{
-		if (str[i] == 45)
-			sign *= -1;
-		i++;
-	}
-	while (str[i] >= 48 && str[i] <= 57)
-	{
-		num = (num * 10) + str[i] - 48;
-		i++;
-	}
-	return (num * sign);
+	if (index < 0)
+		return (-1);
+	if (index == 0)
+		return (0);
+	if (index == 1)
+		return (1);
+	return (ft_fibonacci(index - 1) + ft_fibonacci(index - 2));
 }

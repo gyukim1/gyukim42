@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_iterative_power.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gyukim <gyukim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 20:11:31 by gyukim            #+#    #+#             */
-/*   Updated: 2021/10/24 15:53:39 by gyukim           ###   ########.fr       */
+/*   Created: 2021/10/24 16:37:25 by gyukim            #+#    #+#             */
+/*   Updated: 2021/10/24 18:10:41 by gyukim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(char *str)
+int	ft_iterative_power(int nb, int power)
 {
 	int	i;
-	int	sign;
-	int	num;
+	int	n;
 
-	sign = 1;
-	i = 0;
-	num = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	while (str[i] == 45 || str[i] == 43)
+	i = 2;
+	n = nb;
+	if (power < 0)
+		return (0);
+	if (power == 0)
+		return (1);
+	while (i <= power)
 	{
-		if (str[i] == 45)
-			sign *= -1;
+		nb *= n;
 		i++;
 	}
-	while (str[i] >= 48 && str[i] <= 57)
-	{
-		num = (num * 10) + str[i] - 48;
-		i++;
-	}
-	return (num * sign);
+	return (nb);
 }

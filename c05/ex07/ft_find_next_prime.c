@@ -1,36 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_find_next_prime.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gyukim <gyukim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 20:11:31 by gyukim            #+#    #+#             */
-/*   Updated: 2021/10/24 15:53:39 by gyukim           ###   ########.fr       */
+/*   Created: 2021/10/24 17:06:05 by gyukim            #+#    #+#             */
+/*   Updated: 2021/10/24 17:18:54 by gyukim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(char *str)
+int	ft_is_prime(int nb)
 {
 	int	i;
-	int	sign;
-	int	num;
 
-	sign = 1;
-	i = 0;
-	num = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	while (str[i] == 45 || str[i] == 43)
+	i = 2;
+	if (nb <= 1)
+		return (0);
+	if (nb % 2 == 0)
+		return (0);
+	while (i <= nb / 2)
 	{
-		if (str[i] == 45)
-			sign *= -1;
+		if (nb % i == 0)
+			return (0);
 		i++;
 	}
-	while (str[i] >= 48 && str[i] <= 57)
-	{
-		num = (num * 10) + str[i] - 48;
+	return (1);
+}
+
+int	ft_find_next_prime(int nb)
+{
+	int	i;
+
+	if (nb <= 1)
+		return (2);
+	i = nb;
+	while (!ft_is_prime(i))
 		i++;
-	}
-	return (num * sign);
+	return (i);
 }

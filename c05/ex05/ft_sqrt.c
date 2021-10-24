@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gyukim <gyukim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 20:11:31 by gyukim            #+#    #+#             */
-/*   Updated: 2021/10/24 15:53:39 by gyukim           ###   ########.fr       */
+/*   Created: 2021/10/24 16:52:11 by gyukim            #+#    #+#             */
+/*   Updated: 2021/10/24 18:10:50 by gyukim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(char *str)
+int	ft_recursive(int nb, int n)
 {
-	int	i;
-	int	sign;
-	int	num;
+	if (n >= 46341)
+		return (0);
+	if (n * n == nb)
+		return (n);
+	if (n * n < nb)
+		return (ft_recursive(nb, n + 1));
+	return (0);
+}
 
-	sign = 1;
-	i = 0;
-	num = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	while (str[i] == 45 || str[i] == 43)
-	{
-		if (str[i] == 45)
-			sign *= -1;
-		i++;
-	}
-	while (str[i] >= 48 && str[i] <= 57)
-	{
-		num = (num * 10) + str[i] - 48;
-		i++;
-	}
-	return (num * sign);
+int	ft_sqrt(int nb)
+{
+	return (ft_recursive(nb, 0));
 }
